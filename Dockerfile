@@ -15,6 +15,9 @@ RUN rm /etc/nginx/sites-enabled/default
 ADD errbit.conf /etc/nginx/sites-enabled/errbit.conf
 ADD rails-env.conf /etc/nginx/main.d/rails-env.conf
 
+ADD entrypoint.sh /tmp/entrypoint.sh
+RUN chmod a+x /tmp/entrypoint.sh
+
 RUN /usr/sbin/useradd errbit
 ADD https://github.com/errbit/errbit/archive/v0.4.0.tar.gz /tmp/
 RUN tar -zxvf /tmp/v0.4.0.tar.gz -C /opt
@@ -26,4 +29,6 @@ RUN bundle install --deployment
 RUN bundle exec rake assets:precompile
 
 USER root
+ENTRYPOINT ["/tmp/entrypoint.sh"]
+EXPOSE 80
 CMD ["/sbin/my_init"]
