@@ -25,6 +25,8 @@ RUN ln -s /opt/errbit-0.4.0 /opt/errbit
 RUN chown -R errbit:errbit /opt/errbit-0.4.0
 USER errbit
 WORKDIR /opt/errbit
+
+ENV RAILS_ENV production
 RUN bundle install --deployment
 RUN bundle exec rake assets:precompile
 
